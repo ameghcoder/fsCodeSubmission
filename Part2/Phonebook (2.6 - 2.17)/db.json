@@ -1,0 +1,54 @@
+{
+  "phonebook": [
+    {
+      "id": "91ab",
+      "name": "Rajesh",
+      "number": "123456"
+    },
+    {
+      "id": "b52c",
+      "name": "Priya",
+      "number": "67452345"
+    },
+    {
+      "id": "12ed",
+      "name": "Amit",
+      "number": "78234567"
+    },
+    {
+      "id": "34fa",
+      "name": "Neha",
+      "number": "67891234"
+    },
+    {
+      "id": "8cd1",
+      "name": "Sandeep",
+      "number": "56987452"
+    },
+    {
+      "id": "abc3",
+      "name": "Meena",
+      "number": "45327891"
+    },
+    {
+      "id": "56de",
+      "name": "Rahul",
+      "number": "52416873"
+    },
+    {
+      "id": "99f1",
+      "name": "Geeta",
+      "number": "76123489"
+    },
+    {
+      "id": "7ef8",
+      "name": "Kiran",
+      "number": "62347891"
+    },
+    {
+      "id": "4b92",
+      "name": "Manoj",
+      "number": "84726351"
+    }
+  ]
+}
