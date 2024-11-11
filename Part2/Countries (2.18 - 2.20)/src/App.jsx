@@ -1,66 +1,10 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import './index.css';
-
-const API_COUNTRY = "http://localhost:3001/Countries";
-const API_COUNTRY_DETAILS = "https://studies.cs.helsinki.fi/restcountries/api/name";
-const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
-
-const Notification = ({ message, type }) => {
-  if (!message) {
-    return null;
-  }
-
-  return (
-    <div className={type === 'error' ? 'error-notification' : 'success-notification'}>
-      {message}
-    </div>
-  );
-};
-
-Notification.propTypes = {
-  message: PropTypes.string,
-  type: PropTypes.string,
-};
-
-function ShowDetails({ name, capital, area, languages, flag }) {
-  return (
-    <>
-      <h1>{name}</h1>
-      <p>
-        <strong>Capital</strong> {capital}
-      </p>
-      <p>
-        <strong>Area</strong> {area}
-      </p>
-      <h2>Languages</h2>
-      <ul>
-        {languages.map((language) => (
-          <li key={language}>{language}</li>
-        ))}
-      </ul>
-      <img src={flag} alt="Country Flag" style={{borderRadius: '10px', boxShadow: '4px 8px 16px 0px rgba(0, 0, 0, 0.2)', border: '1px solid rgba(0, 0, 0, 0.2)'}} />
-    </>
-  );
-}
-
-ShowDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  capital: PropTypes.string.isRequired,
-  area: PropTypes.number.isRequired,
-  languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  flag: PropTypes.string.isRequired,
-};
-
-
-const ShowWeather = () => {
-
-  return(
-    <></>
-  );
-}
+import APIs from "./components/APIs";
+import Notification from "./components/Notification";
+import CountryDetails from "./components/CountryDetails";
+import WeatherDetails from "./components/WeatherDetails";
 
 function App() {
   const [matchCountries, setMatchCountries] = useState([]);
@@ -73,7 +17,7 @@ function App() {
 
   const getAndSetCountryData = (countryName) => {
     axios
-      .get(`${API_COUNTRY_DETAILS}/${countryName}`)
+      .get(`${APIs.API_COUNTRY_DETAILS}/${countryName}`)
       .then((response) => response.data)
       .then((data) => {
         console.log(data);
@@ -106,7 +50,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(API_COUNTRY)
+      .get(APIs.API_COUNTRY)
       .then((response) => response.data)
       .then((data) => {
         setCountries(data);
@@ -143,14 +87,17 @@ function App() {
       <div>
         <div>
           {matchCountries.length === 1 || showSpecific ? (
-            countryData.name ? 
-              <ShowDetails
-                name={countryData['name']['common']}
-                capital={countryData.capital[0]}
-                area={countryData.area}
-                languages={Object.values(countryData.languages)}
-                flag={countryData.flags.png}
-              />
+            countryData.name ?
+              <>
+                <CountryDetails
+                  name={countryData['name']['common']}
+                  capital={countryData.capital[0]}
+                  area={countryData.area}
+                  languages={Object.values(countryData.languages)}
+                  flag={countryData.flags.png}
+                />
+                <WeatherDetails location={countryData['name']['common']} />
+              </> 
             : 
               <h2>No Country Data Found</h2>
           ) : matchCountries.length > 10 ? (
@@ -166,7 +113,6 @@ function App() {
             ))
           )}
         </div>
-        <ShowWeather />
       </div>
     </>
   );
